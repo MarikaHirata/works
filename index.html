@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Marika Hirata — Works 2025–2026</title>
+<meta name="description" content="平田茉莉花（METREA）の作品資料。8作品の世界観、キャラクター、美術、物語。">
+<meta name="robots" content="noindex,nofollow">
+<style>
+:root{--bg:#0b0a0e;--ink:#f4f2f5;--mist:#b9b4c2;--red:#e1253d}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:"Hiragino Mincho ProN","Yu Mincho",Georgia,serif;overflow:hidden;-webkit-text-size-adjust:100%;touch-action:manipulation;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
+#stage{position:fixed;inset:0;display:grid;place-items:center}
+#deck{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:0 0;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity .55s ease;pointer-events:none;background:#000;overflow:hidden}
+.slide.on{opacity:1;pointer-events:auto}
+.slide .pg{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;user-select:none;-webkit-user-drag:none;transform:scale(1.035);transition:transform 1.6s cubic-bezier(.2,.7,.2,1);cursor:pointer}
+.slide.on .pg{transform:scale(1)}
+.slide .emb,.slide .hot{opacity:0;transform:translateY(10px);transition:opacity .5s ease .35s,transform .6s cubic-bezier(.2,.7,.2,1) .35s}
+.slide.on .emb,.slide.on .hot{opacity:1;transform:none}
+.emb{position:absolute;overflow:hidden;background:#000;border-radius:2px;box-shadow:0 10px 40px rgba(0,0,0,.5);transition:box-shadow .3s}
+.emb:hover{box-shadow:0 0 0 2px rgba(255,255,255,.85),0 16px 50px rgba(225,37,61,.45)}
+#bar{position:fixed;left:0;top:0;height:3px;width:0;background:var(--red);z-index:25;transition:width .5s cubic-bezier(.2,.7,.2,1)}
+.arrow{position:fixed;top:50%;width:52px;height:52px;margin-top:-26px;border-radius:50%;border:1px solid rgba(255,255,255,.55);background:rgba(11,10,14,.45);color:#fff;font:20px/50px sans-serif;text-align:center;cursor:pointer;z-index:15;opacity:0;transition:opacity .3s,background .2s,transform .2s;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);user-select:none}
+.arrow:hover{background:rgba(225,37,61,.85);transform:scale(1.08)}
+.arrow:active{transform:scale(.96)}
+#aL{left:18px}#aR{right:18px}
+body:hover .arrow,body.touch .arrow{opacity:1}
+@media (hover:none){.arrow,#ui{opacity:1}}
+.arrow.off{opacity:0!important;pointer-events:none}
+.emb iframe{width:100%;height:100%;border:0;display:block}
+.emb.screen{transform-origin:0 0;box-shadow:none;opacity:.96}
+.emb.screen iframe{pointer-events:none}
+.emb.demo{background:transparent;box-shadow:none}
+.demo-link{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#fff;text-decoration:none;background:rgba(10,8,14,.55);border:1px solid rgba(255,255,255,.7);font-family:Futura,"Avenir Next",sans-serif;letter-spacing:.14em;font-size:16px}
+.demo-link small{font-family:"PT Mono",Menlo,monospace;letter-spacing:.04em;font-size:12px;color:var(--mist)}
+.demo-link{transition:background .25s,transform .25s}
+.demo-link:hover{background:rgba(225,37,61,.7);transform:scale(1.02)}
+.hot{position:absolute;display:block}
+.fb{display:none;position:absolute;inset:0;background:#000 center/cover no-repeat}
+.fb .play{position:absolute;left:50%;top:50%;width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;border:2px solid #fff;background:rgba(0,0,0,.35);transition:transform .25s,background .25s}
+.fb:hover .play{transform:scale(1.12);background:rgba(225,37,61,.85)}
+.fb .play:after{content:"";position:absolute;left:22px;top:17px;border-left:18px solid #fff;border-top:11px solid transparent;border-bottom:11px solid transparent}
+body.local .emb iframe{display:none}
+body.local .fb{display:block}
+body.local .emb.screen{display:none}
+#note{position:fixed;left:50%;top:18px;transform:translateX(-50%);max-width:min(92vw,760px);padding:12px 18px;background:rgba(225,37,61,.94);color:#fff;font:13px/1.6 "Hiragino Sans","Yu Gothic",sans-serif;border-radius:4px;z-index:40;display:none;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+#note b{font-weight:700}
+#gate{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:#0b0a0e;transition:opacity .6s ease,visibility .6s}
+#gate.ok{opacity:0;visibility:hidden}
+#gate form{text-align:center;color:var(--ink)}
+#gate h1{font:italic 400 34px/1.2 Didot,"Bodoni 72",Georgia,serif;margin:0 0 6px}
+#gate p{font:12px/1 Futura,"Avenir Next",sans-serif;letter-spacing:.18em;color:var(--mist);margin:0 0 36px;text-transform:uppercase}
+#gate input{all:unset;box-sizing:border-box;width:260px;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.5);text-align:center;font:18px "PT Mono",Menlo,monospace;letter-spacing:.1em;color:#fff;transition:border-color .2s}
+#gate input:focus{border-color:var(--red)}
+#gate button{all:unset;cursor:pointer;display:block;margin:28px auto 0;padding:10px 26px;border:1px solid rgba(255,255,255,.6);font:12px Futura,"Avenir Next",sans-serif;letter-spacing:.18em;transition:background .2s,transform .2s}
+#gate button:hover{background:var(--red);border-color:var(--red);transform:scale(1.03)}
+#gate .err{height:18px;margin-top:14px;font:12px "PT Mono",Menlo,monospace;color:var(--red);opacity:0;transition:opacity .2s}
+#gate.shake form{animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+#note .x{float:right;margin-left:16px;cursor:pointer;opacity:.8}
+body.local #note{display:block}
+#ui{position:fixed;left:0;right:0;bottom:0;display:flex;align-items:center;gap:14px;padding:10px 16px;font:12px/1 Futura,"Avenir Next",sans-serif;letter-spacing:.12em;color:var(--mist);background:linear-gradient(transparent,rgba(0,0,0,.5));opacity:0;transition:opacity .3s;z-index:20}
+body:hover #ui,body.touch #ui{opacity:1}
+#ui button{all:unset;cursor:pointer;padding:6px 8px;color:var(--ink)}
+#ui button:hover{color:var(--red)}
+#count{margin-left:auto;font-variant-numeric:tabular-nums}
+#index{position:fixed;inset:0;background:rgba(11,10,14,.96);overflow:auto;z-index:30;padding:48px;columns:3;column-gap:48px;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+#index.open{opacity:1;visibility:visible}
+#index a{transition:color .2s,padding-left .2s}
+#index a:hover{padding-left:6px}
+#index ul{list-style:none;margin:0;padding:0}
+#index li{break-inside:avoid;margin:0 0 6px}
+#index a{color:var(--mist);text-decoration:none;font:14px/1.6 "PT Mono",Menlo,monospace}
+#index a:hover{color:var(--ink)}
+#index h2{column-span:all;margin:0 0 24px;font:italic 32px Didot,"Bodoni 72",Georgia,serif;font-weight:400}
+#index .x{position:fixed;top:24px;right:32px;font:20px sans-serif;color:var(--ink);cursor:pointer}
+@media (max-width:720px){#index{columns:1;padding:24px}}
+</style>
+</head>
+<body>
+<div id="stage"><div id="deck">
+<section class="slide" data-i="0" aria-label="表紙"><img class="pg" src="img/01_s.jpg" data-src="img/01.jpg" alt="表紙" draggable="false"><div class="emb screen" style="left:0;top:0;width:1152px;height:648px;transform:matrix3d(0.353386,-0.042794,0.000000,-0.000115,0.017032,0.509235,0.000000,0.000012,0.000000,0.000000,1.000000,0.000000,1027.223403,138.317453,0.000000,1.000000)"><iframe data-src="https://www.youtube.com/embed/U0baYL5lXZ4?rel=0&modestbranding=1&mute=1&autoplay=1&loop=1&playlist=U0baYL5lXZ4&controls=0" title="This is me" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe></div></section>
+<section class="slide" data-i="1" aria-label="目次"><img class="pg" src="img/02_s.jpg" data-src="img/02.jpg" alt="目次" draggable="false"><a class="hot" href="https://youtu.be/0I30l1pzgsk" target="_blank" rel="noopener" style="left:104px;top:872px;width:120px;height:26px" aria-label="https://youtu.be/0I30l1pzgsk"></a><a class="hot" href="https://youtu.be/XLSxk7-830U" target="_blank" rel="noopener" style="left:320px;top:913px;width:120px;height:26px" aria-label="https://youtu.be/XLSxk7-830U"></a><a class="hot" href="https://youtu.be/U0baYL5lXZ4" target="_blank" rel="noopener" style="left:536px;top:888px;width:120px;height:26px" aria-label="https://youtu.be/U0baYL5lXZ4"></a><a class="hot" href="https://youtu.be/sZ2mAfSF81M" target="_blank" rel="noopener" style="left:1184px;top:847px;width:120px;height:26px" aria-label="https://youtu.be/sZ2mAfSF81M"></a><a class="hot" href="https://youtu.be/UDFhGwlO4Gs" target="_blank" rel="noopener" style="left:1400px;top:847px;width:120px;height:26px" aria-label="https://youtu.be/UDFhGwlO4Gs"></a></section>
+<section class="slide" data-i="2" aria-label="ステートメント"><img class="pg" src="img/03_s.jpg" data-src="img/03.jpg" alt="ステートメント" draggable="false"></section>
+<section class="slide" data-i="3" aria-label="モチーフ"><img class="pg" src="img/04_s.jpg" data-src="img/04.jpg" alt="モチーフ" draggable="false"></section>
+<section class="slide" data-i="4" aria-label="死にたい虫が煩くて — 扉"><img class="pg" src="img/05_s.jpg" data-src="img/05.jpg" alt="死にたい虫が煩くて — 扉" draggable="false"><a class="hot" href="https://youtu.be/0I30l1pzgsk" target="_blank" rel="noopener" style="left:960px;top:0px;width:960px;height:1080px" aria-label="https://youtu.be/0I30l1pzgsk"></a><div class="emb" style="left:1568px;top:764px;width:256px;height:144px"><iframe data-src="https://www.youtube.com/embed/0I30l1pzgsk?rel=0&modestbranding=1" title="film" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe><a class="fb" href="https://youtu.be/0I30l1pzgsk" target="_blank" rel="noopener" style="background-image:url(img/yt_0I30l1pzgsk.jpg)"><span class="play"></span></a></div><a class="hot" href="https://youtu.be/0I30l1pzgsk" target="_blank" rel="noopener" style="left:1568px;top:908px;width:256px;height:52px" aria-label="https://youtu.be/0I30l1pzgsk"></a></section>
+<section class="slide" data-i="5" aria-label="死にたい虫が煩くて — わたし"><img class="pg" src="img/06_s.jpg" data-src="img/06.jpg" alt="死にたい虫が煩くて — わたし" draggable="false"></section>
+<section class="slide" data-i="6" aria-label="死にたい虫が煩くて — 死にたい虫"><img class="pg" src="img/07_s.jpg" data-src="img/07.jpg" alt="死にたい虫が煩くて — 死にたい虫" draggable="false"></section>
+<section class="slide" data-i="7" aria-label="死にたい虫が煩くて — キャスト"><img class="pg" src="img/08_s.jpg" data-src="img/08.jpg" alt="死にたい虫が煩くて — キャスト" draggable="false"></section>
+<section class="slide" data-i="8" aria-label="死にたい虫が煩くて — 世界観"><img class="pg" src="img/09_s.jpg" data-src="img/09.jpg" alt="死にたい虫が煩くて — 世界観" draggable="false"></section>
+<section class="slide" data-i="9" aria-label="誰にも祝われない夜に — 扉"><img class="pg" src="img/10_s.jpg" data-src="img/10.jpg" alt="誰にも祝われない夜に — 扉" draggable="false"><a class="hot" href="https://youtu.be/XLSxk7-830U" target="_blank" rel="noopener" style="left:0px;top:0px;width:960px;height:1080px" aria-label="https://youtu.be/XLSxk7-830U"></a><div class="emb" style="left:96px;top:764px;width:256px;height:144px"><iframe data-src="https://www.youtube.com/embed/XLSxk7-830U?rel=0&modestbranding=1" title="film" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe><a class="fb" href="https://youtu.be/XLSxk7-830U" target="_blank" rel="noopener" style="background-image:url(img/yt_XLSxk7-830U.jpg)"><span class="play"></span></a></div><a class="hot" href="https://youtu.be/XLSxk7-830U" target="_blank" rel="noopener" style="left:96px;top:908px;width:256px;height:52px" aria-label="https://youtu.be/XLSxk7-830U"></a></section>
+<section class="slide" data-i="10" aria-label="誰にも祝われない夜に — アオ"><img class="pg" src="img/11_s.jpg" data-src="img/11.jpg" alt="誰にも祝われない夜に — アオ" draggable="false"></section>
+<section class="slide" data-i="11" aria-label="誰にも祝われない夜に — ナナ"><img class="pg" src="img/12_s.jpg" data-src="img/12.jpg" alt="誰にも祝われない夜に — ナナ" draggable="false"></section>
+<section class="slide" data-i="12" aria-label="誰にも祝われない夜に — リア"><img class="pg" src="img/13_s.jpg" data-src="img/13.jpg" alt="誰にも祝われない夜に — リア" draggable="false"></section>
+<section class="slide" data-i="13" aria-label="誰にも祝われない夜に — キャスト"><img class="pg" src="img/14_s.jpg" data-src="img/14.jpg" alt="誰にも祝われない夜に — キャスト" draggable="false"></section>
+<section class="slide" data-i="14" aria-label="誰にも祝われない夜に — 世界観"><img class="pg" src="img/15_s.jpg" data-src="img/15.jpg" alt="誰にも祝われない夜に — 世界観" draggable="false"></section>
+<section class="slide" data-i="15" aria-label="誰にも祝われない夜に — 街"><img class="pg" src="img/16_s.jpg" data-src="img/16.jpg" alt="誰にも祝われない夜に — 街" draggable="false"></section>
+<section class="slide" data-i="16" aria-label="誰にも祝われない夜に — ミルクとケーキ"><img class="pg" src="img/17_s.jpg" data-src="img/17.jpg" alt="誰にも祝われない夜に — ミルクとケーキ" draggable="false"></section>
+<section class="slide" data-i="17" aria-label="This is me — 扉"><img class="pg" src="img/18_s.jpg" data-src="img/18.jpg" alt="This is me — 扉" draggable="false"><a class="hot" href="https://youtu.be/U0baYL5lXZ4" target="_blank" rel="noopener" style="left:960px;top:0px;width:960px;height:1080px" aria-label="https://youtu.be/U0baYL5lXZ4"></a><div class="emb" style="left:1568px;top:764px;width:256px;height:144px"><iframe data-src="https://www.youtube.com/embed/U0baYL5lXZ4?rel=0&modestbranding=1" title="film" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe><a class="fb" href="https://youtu.be/U0baYL5lXZ4" target="_blank" rel="noopener" style="background-image:url(img/yt_U0baYL5lXZ4.jpg)"><span class="play"></span></a></div><a class="hot" href="https://youtu.be/U0baYL5lXZ4" target="_blank" rel="noopener" style="left:1568px;top:908px;width:256px;height:52px" aria-label="https://youtu.be/U0baYL5lXZ4"></a></section>
+<section class="slide" data-i="18" aria-label="This is me — ハル"><img class="pg" src="img/19_s.jpg" data-src="img/19.jpg" alt="This is me — ハル" draggable="false"></section>
+<section class="slide" data-i="19" aria-label="This is me — 父"><img class="pg" src="img/20_s.jpg" data-src="img/20.jpg" alt="This is me — 父" draggable="false"></section>
+<section class="slide" data-i="20" aria-label="This is me — Diva"><img class="pg" src="img/21_s.jpg" data-src="img/21.jpg" alt="This is me — Diva" draggable="false"></section>
+<section class="slide" data-i="21" aria-label="This is me — 母"><img class="pg" src="img/22_s.jpg" data-src="img/22.jpg" alt="This is me — 母" draggable="false"></section>
+<section class="slide" data-i="22" aria-label="This is me — 世良ジュン"><img class="pg" src="img/23_s.jpg" data-src="img/23.jpg" alt="This is me — 世良ジュン" draggable="false"></section>
+<section class="slide" data-i="23" aria-label="This is me — キャスト"><img class="pg" src="img/24_s.jpg" data-src="img/24.jpg" alt="This is me — キャスト" draggable="false"></section>
+<section class="slide" data-i="24" aria-label="This is me — 世界観"><img class="pg" src="img/25_s.jpg" data-src="img/25.jpg" alt="This is me — 世界観" draggable="false"></section>
+<section class="slide" data-i="25" aria-label="EGO HEART — 扉"><img class="pg" src="img/26_s.jpg" data-src="img/26.jpg" alt="EGO HEART — 扉" draggable="false"></section>
+<section class="slide" data-i="26" aria-label="EGO HEART — ポンチキ"><img class="pg" src="img/27_s.jpg" data-src="img/27.jpg" alt="EGO HEART — ポンチキ" draggable="false"></section>
+<section class="slide" data-i="27" aria-label="EGO HEART — ミルフォイ"><img class="pg" src="img/28_s.jpg" data-src="img/28.jpg" alt="EGO HEART — ミルフォイ" draggable="false"></section>
+<section class="slide" data-i="28" aria-label="EGO HEART — サルミアッキ博士"><img class="pg" src="img/29_s.jpg" data-src="img/29.jpg" alt="EGO HEART — サルミアッキ博士" draggable="false"></section>
+<section class="slide" data-i="29" aria-label="EGO HEART — キャスト"><img class="pg" src="img/30_s.jpg" data-src="img/30.jpg" alt="EGO HEART — キャスト" draggable="false"></section>
+<section class="slide" data-i="30" aria-label="EGO HEART — 世界観"><img class="pg" src="img/31_s.jpg" data-src="img/31.jpg" alt="EGO HEART — 世界観" draggable="false"></section>
+<section class="slide" data-i="31" aria-label="RAIN ON THE METER — 扉"><img class="pg" src="img/32_s.jpg" data-src="img/32.jpg" alt="RAIN ON THE METER — 扉" draggable="false"></section>
+<section class="slide" data-i="32" aria-label="RAIN ON THE METER — 少年"><img class="pg" src="img/33_s.jpg" data-src="img/33.jpg" alt="RAIN ON THE METER — 少年" draggable="false"></section>
+<section class="slide" data-i="33" aria-label="RAIN ON THE METER — 運転手"><img class="pg" src="img/34_s.jpg" data-src="img/34.jpg" alt="RAIN ON THE METER — 運転手" draggable="false"></section>
+<section class="slide" data-i="34" aria-label="RAIN ON THE METER — キャスト"><img class="pg" src="img/35_s.jpg" data-src="img/35.jpg" alt="RAIN ON THE METER — キャスト" draggable="false"></section>
+<section class="slide" data-i="35" aria-label="RAIN ON THE METER — 世界観"><img class="pg" src="img/36_s.jpg" data-src="img/36.jpg" alt="RAIN ON THE METER — 世界観" draggable="false"></section>
+<section class="slide" data-i="36" aria-label="JUDGE — 扉"><img class="pg" src="img/37_s.jpg" data-src="img/37.jpg" alt="JUDGE — 扉" draggable="false"><a class="hot" href="https://youtu.be/sZ2mAfSF81M" target="_blank" rel="noopener" style="left:0px;top:0px;width:960px;height:1080px" aria-label="https://youtu.be/sZ2mAfSF81M"></a><div class="emb" style="left:96px;top:764px;width:256px;height:144px"><iframe data-src="https://www.youtube.com/embed/sZ2mAfSF81M?rel=0&modestbranding=1" title="film" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe><a class="fb" href="https://youtu.be/sZ2mAfSF81M" target="_blank" rel="noopener" style="background-image:url(img/yt_sZ2mAfSF81M.jpg)"><span class="play"></span></a></div><a class="hot" href="https://youtu.be/sZ2mAfSF81M" target="_blank" rel="noopener" style="left:96px;top:908px;width:256px;height:52px" aria-label="https://youtu.be/sZ2mAfSF81M"></a></section>
+<section class="slide" data-i="37" aria-label="JUDGE — ヨル"><img class="pg" src="img/38_s.jpg" data-src="img/38.jpg" alt="JUDGE — ヨル" draggable="false"></section>
+<section class="slide" data-i="38" aria-label="JUDGE — ヨハン"><img class="pg" src="img/39_s.jpg" data-src="img/39.jpg" alt="JUDGE — ヨハン" draggable="false"></section>
+<section class="slide" data-i="39" aria-label="JUDGE — キャスト"><img class="pg" src="img/40_s.jpg" data-src="img/40.jpg" alt="JUDGE — キャスト" draggable="false"></section>
+<section class="slide" data-i="40" aria-label="JUDGE — 世界観"><img class="pg" src="img/41_s.jpg" data-src="img/41.jpg" alt="JUDGE — 世界観" draggable="false"></section>
+<section class="slide" data-i="41" aria-label="JUDGE — 上の街"><img class="pg" src="img/42_s.jpg" data-src="img/42.jpg" alt="JUDGE — 上の街" draggable="false"></section>
+<section class="slide" data-i="42" aria-label="JUDGE — ヨルの部屋"><img class="pg" src="img/43_s.jpg" data-src="img/43.jpg" alt="JUDGE — ヨルの部屋" draggable="false"></section>
+<section class="slide" data-i="43" aria-label="JUDGE — 裁判所とソフィア"><img class="pg" src="img/44_s.jpg" data-src="img/44.jpg" alt="JUDGE — 裁判所とソフィア" draggable="false"></section>
+<section class="slide" data-i="44" aria-label="JUDGE — シャトル"><img class="pg" src="img/45_s.jpg" data-src="img/45.jpg" alt="JUDGE — シャトル" draggable="false"></section>
+<section class="slide" data-i="45" aria-label="JUDGE — 地下"><img class="pg" src="img/46_s.jpg" data-src="img/46.jpg" alt="JUDGE — 地下" draggable="false"></section>
+<section class="slide" data-i="46" aria-label="JUDGE — 下の街"><img class="pg" src="img/47_s.jpg" data-src="img/47.jpg" alt="JUDGE — 下の街" draggable="false"></section>
+<section class="slide" data-i="47" aria-label="JUDGE — 灯籠の街"><img class="pg" src="img/48_s.jpg" data-src="img/48.jpg" alt="JUDGE — 灯籠の街" draggable="false"></section>
+<section class="slide" data-i="48" aria-label="JUDGE — 街のデザイン"><img class="pg" src="img/49_s.jpg" data-src="img/49.jpg" alt="JUDGE — 街のデザイン" draggable="false"></section>
+<section class="slide" data-i="49" aria-label="JUDGE — ヨハンの記憶"><img class="pg" src="img/50_s.jpg" data-src="img/50.jpg" alt="JUDGE — ヨハンの記憶" draggable="false"></section>
+<section class="slide" data-i="50" aria-label="JUDGE — 小道具と街の住人"><img class="pg" src="img/51_s.jpg" data-src="img/51.jpg" alt="JUDGE — 小道具と街の住人" draggable="false"></section>
+<section class="slide" data-i="51" aria-label="JUDGE — 最深部へ"><img class="pg" src="img/52_s.jpg" data-src="img/52.jpg" alt="JUDGE — 最深部へ" draggable="false"></section>
+<section class="slide" data-i="52" aria-label="HONOR — 扉"><img class="pg" src="img/53_s.jpg" data-src="img/53.jpg" alt="HONOR — 扉" draggable="false"><a class="hot" href="https://youtu.be/UDFhGwlO4Gs" target="_blank" rel="noopener" style="left:960px;top:0px;width:960px;height:1080px" aria-label="https://youtu.be/UDFhGwlO4Gs"></a><div class="emb" style="left:1568px;top:764px;width:256px;height:144px"><iframe data-src="https://www.youtube.com/embed/UDFhGwlO4Gs?rel=0&modestbranding=1" title="film" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe><a class="fb" href="https://youtu.be/UDFhGwlO4Gs" target="_blank" rel="noopener" style="background-image:url(img/yt_UDFhGwlO4Gs.jpg)"><span class="play"></span></a></div><a class="hot" href="https://youtu.be/UDFhGwlO4Gs" target="_blank" rel="noopener" style="left:1568px;top:908px;width:256px;height:52px" aria-label="https://youtu.be/UDFhGwlO4Gs"></a></section>
+<section class="slide" data-i="53" aria-label="HONOR — ホマレ"><img class="pg" src="img/54_s.jpg" data-src="img/54.jpg" alt="HONOR — ホマレ" draggable="false"></section>
+<section class="slide" data-i="54" aria-label="HONOR — サチ"><img class="pg" src="img/55_s.jpg" data-src="img/55.jpg" alt="HONOR — サチ" draggable="false"></section>
+<section class="slide" data-i="55" aria-label="HONOR — 黒い影"><img class="pg" src="img/56_s.jpg" data-src="img/56.jpg" alt="HONOR — 黒い影" draggable="false"></section>
+<section class="slide" data-i="56" aria-label="HONOR — 巨大な影"><img class="pg" src="img/57_s.jpg" data-src="img/57.jpg" alt="HONOR — 巨大な影" draggable="false"></section>
+<section class="slide" data-i="57" aria-label="HONOR — キャスト"><img class="pg" src="img/58_s.jpg" data-src="img/58.jpg" alt="HONOR — キャスト" draggable="false"></section>
+<section class="slide" data-i="58" aria-label="HONOR — 世界観"><img class="pg" src="img/59_s.jpg" data-src="img/59.jpg" alt="HONOR — 世界観" draggable="false"></section>
+<section class="slide" data-i="59" aria-label="ホシノメ — 扉"><img class="pg" src="img/60_s.jpg" data-src="img/60.jpg" alt="ホシノメ — 扉" draggable="false"><div class="emb demo" style="left:96px;top:740px;width:300px;height:150px"><a class="demo-link" href="https://marika-was-here.itch.io/hoshinome" target="_blank" rel="noopener"><span>▶ PLAY THE DEMO</span><small>itch.io — password: was_here</small></a></div><a class="hot" href="https://marika-was-here.itch.io/hoshinome" target="_blank" rel="noopener" style="left:96px;top:890px;width:300px;height:70px" aria-label="https://marika-was-here.itch.io/hoshinome"></a></section>
+<section class="slide" data-i="60" aria-label="ホシノメ — シロ"><img class="pg" src="img/61_s.jpg" data-src="img/61.jpg" alt="ホシノメ — シロ" draggable="false"></section>
+<section class="slide" data-i="61" aria-label="ホシノメ — クロ"><img class="pg" src="img/62_s.jpg" data-src="img/62.jpg" alt="ホシノメ — クロ" draggable="false"></section>
+<section class="slide" data-i="62" aria-label="ホシノメ — クロズキン"><img class="pg" src="img/63_s.jpg" data-src="img/63.jpg" alt="ホシノメ — クロズキン" draggable="false"></section>
+<section class="slide" data-i="63" aria-label="ホシノメ — サンカク"><img class="pg" src="img/64_s.jpg" data-src="img/64.jpg" alt="ホシノメ — サンカク" draggable="false"></section>
+<section class="slide" data-i="64" aria-label="ホシノメ — ヒトツメ"><img class="pg" src="img/65_s.jpg" data-src="img/65.jpg" alt="ホシノメ — ヒトツメ" draggable="false"></section>
+<section class="slide" data-i="65" aria-label="ホシノメ — ハレ（仮）"><img class="pg" src="img/66_s.jpg" data-src="img/66.jpg" alt="ホシノメ — ハレ（仮）" draggable="false"></section>
+<section class="slide" data-i="66" aria-label="ホシノメ — アカネ"><img class="pg" src="img/67_s.jpg" data-src="img/67.jpg" alt="ホシノメ — アカネ" draggable="false"></section>
+<section class="slide" data-i="67" aria-label="ホシノメ — ダル"><img class="pg" src="img/68_s.jpg" data-src="img/68.jpg" alt="ホシノメ — ダル" draggable="false"></section>
+<section class="slide" data-i="68" aria-label="ホシノメ — ゴメ"><img class="pg" src="img/69_s.jpg" data-src="img/69.jpg" alt="ホシノメ — ゴメ" draggable="false"></section>
+<section class="slide" data-i="69" aria-label="ホシノメ — クモ"><img class="pg" src="img/70_s.jpg" data-src="img/70.jpg" alt="ホシノメ — クモ" draggable="false"></section>
+<section class="slide" data-i="70" aria-label="ホシノメ — キャスト1"><img class="pg" src="img/71_s.jpg" data-src="img/71.jpg" alt="ホシノメ — キャスト1" draggable="false"></section>
+<section class="slide" data-i="71" aria-label="ホシノメ — キャスト2"><img class="pg" src="img/72_s.jpg" data-src="img/72.jpg" alt="ホシノメ — キャスト2" draggable="false"></section>
+<section class="slide" data-i="72" aria-label="ホシノメ — 世界観"><img class="pg" src="img/73_s.jpg" data-src="img/73.jpg" alt="ホシノメ — 世界観" draggable="false"></section>
+<section class="slide" data-i="73" aria-label="おわり"><img class="pg" src="img/74_s.jpg" data-src="img/74.jpg" alt="おわり" draggable="false"><a class="hot" href="mailto:yishii@metrea.design" target="_blank" rel="noopener" style="left:974px;top:652px;width:300px;height:28px" aria-label="mailto:yishii@metrea.design"></a><a class="hot" href="https://youtu.be/0I30l1pzgsk" target="_blank" rel="noopener" style="left:330px;top:776px;width:220px;height:154px" aria-label="https://youtu.be/0I30l1pzgsk"></a><a class="hot" href="https://youtu.be/XLSxk7-830U" target="_blank" rel="noopener" style="left:590px;top:776px;width:220px;height:154px" aria-label="https://youtu.be/XLSxk7-830U"></a><a class="hot" href="https://youtu.be/U0baYL5lXZ4" target="_blank" rel="noopener" style="left:850px;top:776px;width:220px;height:157px" aria-label="https://youtu.be/U0baYL5lXZ4"></a><a class="hot" href="https://youtu.be/sZ2mAfSF81M" target="_blank" rel="noopener" style="left:1110px;top:776px;width:220px;height:157px" aria-label="https://youtu.be/sZ2mAfSF81M"></a><a class="hot" href="https://youtu.be/UDFhGwlO4Gs" target="_blank" rel="noopener" style="left:1370px;top:776px;width:220px;height:157px" aria-label="https://youtu.be/UDFhGwlO4Gs"></a></section>
+</div></div>
+<div id="gate"><form id="gateForm" autocomplete="off"><h1>Marika Hirata</h1><p>Works 2025 — 2026</p><input id="pw" type="password" placeholder="password" autofocus><div class="err" id="pwErr">パスワードが違います</div><button type="submit">ENTER</button></form></div>
+<div id="bar"></div>
+<div class="arrow" id="aL" title="前へ">◀</div><div class="arrow" id="aR" title="次へ">▶</div>
+<div id="ui">
+  <button id="prev" title="前へ (←)">◀</button>
+  <button id="next" title="次へ (→)">▶</button>
+  <button id="idx" title="目次">INDEX</button>
+  <button id="full" title="全画面 (F)">FULLSCREEN</button>
+  <span id="count"></span>
+</div>
+<div id="note"><span class="x" id="noteClose">✕</span>ファイルを直接開いているため、YouTube の動画はこのページの中では再生できません（サムネイルをクリックすると YouTube で開きます）。ページ内で再生するには、同じフォルダの <b>「スライドを開く.command」</b> をダブルクリックするか、このフォルダを Web サーバーに置いてください。</div>
+<div id="index"><span class="x" id="idxClose">✕</span><h2>Marika Hirata — Works 2025–2026</h2><ul><li><a href="#1">001 — 表紙</a></li><li><a href="#2">002 — 目次</a></li><li><a href="#3">003 — ステートメント</a></li><li><a href="#4">004 — モチーフ</a></li><li><a href="#5">005 — 死にたい虫が煩くて — 扉</a></li><li><a href="#6">006 — 死にたい虫が煩くて — わたし</a></li><li><a href="#7">007 — 死にたい虫が煩くて — 死にたい虫</a></li><li><a href="#8">008 — 死にたい虫が煩くて — キャスト</a></li><li><a href="#9">009 — 死にたい虫が煩くて — 世界観</a></li><li><a href="#10">010 — 誰にも祝われない夜に — 扉</a></li><li><a href="#11">011 — 誰にも祝われない夜に — アオ</a></li><li><a href="#12">012 — 誰にも祝われない夜に — ナナ</a></li><li><a href="#13">013 — 誰にも祝われない夜に — リア</a></li><li><a href="#14">014 — 誰にも祝われない夜に — キャスト</a></li><li><a href="#15">015 — 誰にも祝われない夜に — 世界観</a></li><li><a href="#16">016 — 誰にも祝われない夜に — 街</a></li><li><a href="#17">017 — 誰にも祝われない夜に — ミルクとケーキ</a></li><li><a href="#18">018 — This is me — 扉</a></li><li><a href="#19">019 — This is me — ハル</a></li><li><a href="#20">020 — This is me — 父</a></li><li><a href="#21">021 — This is me — Diva</a></li><li><a href="#22">022 — This is me — 母</a></li><li><a href="#23">023 — This is me — 世良ジュン</a></li><li><a href="#24">024 — This is me — キャスト</a></li><li><a href="#25">025 — This is me — 世界観</a></li><li><a href="#26">026 — EGO HEART — 扉</a></li><li><a href="#27">027 — EGO HEART — ポンチキ</a></li><li><a href="#28">028 — EGO HEART — ミルフォイ</a></li><li><a href="#29">029 — EGO HEART — サルミアッキ博士</a></li><li><a href="#30">030 — EGO HEART — キャスト</a></li><li><a href="#31">031 — EGO HEART — 世界観</a></li><li><a href="#32">032 — RAIN ON THE METER — 扉</a></li><li><a href="#33">033 — RAIN ON THE METER — 少年</a></li><li><a href="#34">034 — RAIN ON THE METER — 運転手</a></li><li><a href="#35">035 — RAIN ON THE METER — キャスト</a></li><li><a href="#36">036 — RAIN ON THE METER — 世界観</a></li><li><a href="#37">037 — JUDGE — 扉</a></li><li><a href="#38">038 — JUDGE — ヨル</a></li><li><a href="#39">039 — JUDGE — ヨハン</a></li><li><a href="#40">040 — JUDGE — キャスト</a></li><li><a href="#41">041 — JUDGE — 世界観</a></li><li><a href="#42">042 — JUDGE — 上の街</a></li><li><a href="#43">043 — JUDGE — ヨルの部屋</a></li><li><a href="#44">044 — JUDGE — 裁判所とソフィア</a></li><li><a href="#45">045 — JUDGE — シャトル</a></li><li><a href="#46">046 — JUDGE — 地下</a></li><li><a href="#47">047 — JUDGE — 下の街</a></li><li><a href="#48">048 — JUDGE — 灯籠の街</a></li><li><a href="#49">049 — JUDGE — 街のデザイン</a></li><li><a href="#50">050 — JUDGE — ヨハンの記憶</a></li><li><a href="#51">051 — JUDGE — 小道具と街の住人</a></li><li><a href="#52">052 — JUDGE — 最深部へ</a></li><li><a href="#53">053 — HONOR — 扉</a></li><li><a href="#54">054 — HONOR — ホマレ</a></li><li><a href="#55">055 — HONOR — サチ</a></li><li><a href="#56">056 — HONOR — 黒い影</a></li><li><a href="#57">057 — HONOR — 巨大な影</a></li><li><a href="#58">058 — HONOR — キャスト</a></li><li><a href="#59">059 — HONOR — 世界観</a></li><li><a href="#60">060 — ホシノメ — 扉</a></li><li><a href="#61">061 — ホシノメ — シロ</a></li><li><a href="#62">062 — ホシノメ — クロ</a></li><li><a href="#63">063 — ホシノメ — クロズキン</a></li><li><a href="#64">064 — ホシノメ — サンカク</a></li><li><a href="#65">065 — ホシノメ — ヒトツメ</a></li><li><a href="#66">066 — ホシノメ — ハレ（仮）</a></li><li><a href="#67">067 — ホシノメ — アカネ</a></li><li><a href="#68">068 — ホシノメ — ダル</a></li><li><a href="#69">069 — ホシノメ — ゴメ</a></li><li><a href="#70">070 — ホシノメ — クモ</a></li><li><a href="#71">071 — ホシノメ — キャスト1</a></li><li><a href="#72">072 — ホシノメ — キャスト2</a></li><li><a href="#73">073 — ホシノメ — 世界観</a></li><li><a href="#74">074 — おわり</a></li></ul></div>
+<script>
+(() => {
+  const GATE_HASH = "9f0914a1";
+  const fnv = t => { let h = 0x811c9dc5; for (const b of new TextEncoder().encode(t)) { h ^= b; h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(16).padStart(8, '0'); };
+  const gate = document.getElementById('gate');
+  if (gate) {
+    let ok = false; try { ok = sessionStorage.getItem('mh_ok') === GATE_HASH; } catch (e) {}
+    if (ok) gate.classList.add('ok');
+    else document.getElementById('gateForm').addEventListener('submit', e => {
+      e.preventDefault();
+      if (fnv(document.getElementById('pw').value.trim()) === GATE_HASH) { try { sessionStorage.setItem('mh_ok', GATE_HASH); } catch (e2) {} gate.classList.add('ok'); start(); }
+      else { document.getElementById('pwErr').style.opacity = 1; gate.classList.remove('shake'); void gate.offsetWidth; gate.classList.add('shake'); }
+    });
+    if (!ok) { setTimeout(() => document.getElementById('pw').focus(), 300); }
+  }
+  let started = false;
+  function start(){ if (started) return; started = true; go(fromHash(), false); }
+  const slides = [...document.querySelectorAll('.slide')], N = slides.length;
+  const LOCAL = !/^https?:$/.test(location.protocol); // YouTube needs an HTTP referer (error 153), so local files get thumbnails + links
+  if (LOCAL) document.body.classList.add('local');
+  document.getElementById('noteClose').onclick = () => document.getElementById('note').style.display = 'none';
+  const deck = document.getElementById('deck'), count = document.getElementById('count');
+  let cur = -1;
+  function fit(){ const s = Math.min(innerWidth/1920, innerHeight/1080); deck.style.transform = 'translate(' + (-960*s) + 'px,' + (-540*s) + 'px) scale(' + s + ')'; }
+  addEventListener('resize', fit); fit();
+  function load(i){ const s = slides[i]; if (!s) return; const im = s.querySelector('.pg'); if (im && im.dataset.src){ im.src = im.dataset.src; delete im.dataset.src; } }
+  function arm(i, on){ if (LOCAL) return; const s = slides[i]; if (!s) return; s.querySelectorAll('iframe').forEach(f => { if (on){ if (!f.src) f.src = f.dataset.src; } else if (f.src){ f.src = ''; f.removeAttribute('src'); } }); }
+  function go(i, push=true){
+    i = Math.max(0, Math.min(N-1, i)); if (i === cur) return;
+    if (cur >= 0){ slides[cur].classList.remove('on'); arm(cur, false); }
+    cur = i; load(i); load(i+1); load(i-1); slides[i].classList.add('on'); arm(i, true);
+    count.textContent = String(i+1).padStart(3,'0') + ' / ' + String(N).padStart(3,'0');
+    document.getElementById('bar').style.width = ((i+1)/N*100) + '%';
+    document.getElementById('aL').classList.toggle('off', i === 0); document.getElementById('aR').classList.toggle('off', i === N-1);
+    document.title = (slides[i].getAttribute('aria-label') || '') + ' — Marika Hirata';
+    if (push) history.replaceState(null, '', '#' + (i+1));
+  }
+  const fromHash = () => { const n = parseInt(location.hash.slice(1), 10); return isNaN(n) ? 0 : n-1; };
+  if (!gate || gate.classList.contains('ok')) start();
+  addEventListener('hashchange', () => go(fromHash(), false));
+  const next = () => go(cur+1), prev = () => go(cur-1);
+  document.getElementById('next').onclick = next; document.getElementById('prev').onclick = prev;
+  document.getElementById('aR').onclick = next; document.getElementById('aL').onclick = prev;
+  // a click on the page itself: left third = back, the rest = forward (players and links handle their own clicks)
+  deck.addEventListener('click', e => {
+    if (e.target.closest('.emb, .hot, .fb, a, button, iframe')) return;
+    const r = deck.getBoundingClientRect(); (e.clientX - r.left) / r.width < 0.33 ? prev() : next();
+  });
+  const idx = document.getElementById('index');
+  document.getElementById('idx').onclick = () => idx.classList.add('open');
+  document.getElementById('idxClose').onclick = () => idx.classList.remove('open');
+  idx.addEventListener('click', e => { if (e.target.tagName === 'A') idx.classList.remove('open'); });
+  document.getElementById('full').onclick = () => document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+  addEventListener('keydown', e => {
+    if (e.target.tagName === 'IFRAME' || e.target.tagName === 'INPUT') return;
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); next(); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); prev(); }
+    else if (e.key === 'Home') go(0); else if (e.key === 'End') go(N-1);
+    else if (e.key === 'f' || e.key === 'F') document.getElementById('full').click();
+    else if (e.key === 'Escape') idx.classList.remove('open');
+  });
+  let x0 = null;
+  addEventListener('touchstart', e => { x0 = e.touches[0].clientX; document.body.classList.add('touch'); }, {passive:true});
+  addEventListener('touchend', e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 50) (dx < 0 ? next : prev)(); x0 = null; });
+})();
+</script>
+</body>
+</html>
