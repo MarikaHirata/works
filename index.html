@@ -13,7 +13,8 @@ html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family
 #stage{position:fixed;inset:0}
 #deck{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:0 0;background:#000;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.6)}
 /* slides: cross-fade; a chapter opening dips through black */
-.slide{position:absolute;inset:0;opacity:0;visibility:hidden;overflow:hidden;background:#000;pointer-events:none;cursor:pointer;transition:opacity .7s ease,visibility 0s linear .75s}
+.slide{display:none;position:absolute;inset:0;opacity:0;visibility:hidden;overflow:hidden;background:#000;pointer-events:none;cursor:pointer;transition:opacity .7s ease,visibility 0s linear .75s}
+.slide.live{display:block}
 .slide.on{opacity:1;visibility:visible;pointer-events:auto;z-index:2;transition:opacity .7s ease}
 .slide.on.dip{transition:opacity .95s ease .45s}
 .slide.leaving{visibility:visible;z-index:1}
@@ -25,7 +26,7 @@ html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family
 .k-title .bgw{transform:scale(1.13)}
 .k-cover .bgw{transform:scale(1.04)}
 .slide.on.ready .bgw,.slide.leaving .bgw{transform:none}
-.bgw .bg,.bgw .bgv{position:absolute;left:0;top:0;width:100%;height:100%;display:block;object-fit:cover;will-change:transform;backface-visibility:hidden}
+.bgw .bg,.bgw .bgv{position:absolute;left:0;top:0;width:100%;height:100%;display:block;object-fit:cover}
 .slide.on.ready .bgw .bg,.slide.on.ready .bgw .bgv,.slide.leaving .bgw .bg,.slide.leaving .bgw .bgv{animation:drift 42s ease-in-out 2.6s infinite alternate}
 .k-cover .bgw .bg{animation:none!important}
 @keyframes drift{to{transform:scale(1.045) translate(var(--dx),var(--dy))}}
@@ -120,7 +121,7 @@ html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family
 #lb .x{position:absolute;top:22px;right:28px;font:22px sans-serif;color:#fff;cursor:pointer;opacity:.8}
 #lb .x:hover{opacity:1;color:var(--red)}
 /* film grain over everything */
-#grain{position:fixed;inset:-120px;z-index:12;pointer-events:none;background:url(img/grain.png);opacity:.55;animation:grain .8s steps(1) infinite}
+#grain{position:fixed;inset:-64px;z-index:12;pointer-events:none;background:url(img/grain.png);opacity:.55;animation:grain .8s steps(1) infinite}
 @keyframes grain{0%{transform:translate(0,0)}12.5%{transform:translate(-41px,27px)}25%{transform:translate(33px,-58px)}37.5%{transform:translate(-62px,-14px)}50%{transform:translate(18px,47px)}62.5%{transform:translate(-25px,-39px)}75%{transform:translate(55px,12px)}87.5%{transform:translate(-8px,63px)}}
 /* chrome */
 #bar{position:fixed;left:0;top:0;height:3px;width:0;background:var(--red);z-index:25;transition:width .6s cubic-bezier(.2,.7,.2,1)}
@@ -140,7 +141,7 @@ body:hover #ui,body.touch #ui{opacity:1}
 #count{font-variant-numeric:tabular-nums}
 body.idle{cursor:none}
 body.idle #ui,body.idle .arrow{opacity:0!important}
-@media (hover:none){.arrow,#ui{opacity:1}}
+@media (hover:none){.arrow,#ui{opacity:1}#grain{animation:none}}
 /* index */
 #index{position:fixed;inset:0;background:rgba(11,10,14,.97);overflow:auto;z-index:30;padding:36px 48px 90px;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s;-webkit-overflow-scrolling:touch}
 #index.open{opacity:1;visibility:visible}
@@ -328,6 +329,7 @@ body.single .aud,body.single #player,body.single .cm,body.single #offline{displa
   function start(){ if (started) return; started = true; go(fromHash(), false); keepAwake(); }
 
   // ---------------------------------------------------------------- loading: layers near the current page, released far from it
+  const MOBILE = matchMedia('(hover: none)').matches || navigator.maxTouchPoints > 1;
   function load(i){
     const s = slides[i]; if (!s || s.dataset.loaded) return;
     s.dataset.loaded = 1;
@@ -335,8 +337,15 @@ body.single .aud,body.single #player,body.single .cm,body.single #offline{displa
     imgs.forEach(im => { if (im.dataset.srcset) im.srcset = im.dataset.srcset; });
     const done = () => s.classList.add('ready');
     if (!imgs.length) { done(); return; }
-    Promise.all(imgs.map(im => (im.decode ? im.decode() : new Promise(r => { im.onload = im.onerror = r; })).catch(() => {}))).then(done);
-    setTimeout(done, 7000);
+    settle(s);
+    setTimeout(done, 4000);
+  }
+  function settle(s){   // ready once every layer has loaded (load events are reliable everywhere; decode() is not)
+    const imgs = [...s.querySelectorAll('img.L')];
+    const ok = im => im.complete && im.naturalWidth > 0;
+    const check = () => { if (imgs.every(ok)) s.classList.add('ready'); };
+    imgs.forEach(im => { if (!ok(im)) { im.addEventListener('load', check, { once: true }); im.addEventListener('error', () => s.classList.add('ready'), { once: true }); } });
+    check();
   }
   function unload(i){
     const s = slides[i]; if (!s || !s.dataset.loaded || s.classList.contains('on') || s.classList.contains('leaving')) return;
@@ -366,13 +375,15 @@ body.single .aud,body.single #player,body.single .cm,body.single #offline{displa
     const prevS = cur >= 0 ? slides[cur] : null, s = slides[i];
     if (prevS) {
       prevS.classList.remove('on'); prevS.classList.add('leaving'); arm(cur, false);
-      setTimeout(() => prevS.classList.remove('leaving'), 1300);
+      setTimeout(() => { prevS.classList.remove('leaving'); if (!prevS.classList.contains('on')) prevS.classList.remove('live'); }, 1300);
     }
     if (s.dataset.kind === 'title' && (!prevS || prevS.dataset.work !== s.dataset.work)) { s.classList.add('dip'); setTimeout(() => s.classList.remove('dip'), 1600); }
     cur = i; s.classList.remove('leaving');
-    [i, i + 1, i - 1, i + 2].forEach(load);
+    (MOBILE ? [i, i + 1, i - 1] : [i, i + 1, i - 1, i + 2]).forEach(load);
+    s.classList.add('live'); void s.offsetWidth;
     s.classList.add('on'); arm(i, true); prep(i + 1);
-    slides.forEach((_, j) => { if (j < i - 2 || j > i + 3) unload(j); });
+    if (!s.classList.contains('ready')) settle(s);
+    slides.forEach((_, j) => { if (MOBILE ? (j < i - 1 || j > i + 1) : (j < i - 2 || j > i + 3)) unload(j); });
     count.textContent = String(i + 1).padStart(3, '0') + ' / ' + String(N).padStart(3, '0');
     chap.textContent = s.dataset.chap;
     bar.style.width = ((i + 1) / N * 100) + '%';
