@@ -388,7 +388,7 @@ body.single .aud,body.single #player,body.single .cm,body.single #offline{displa
   const deck = $('deck');
   // phones read the deck as a scroll of pages, each with its words; ?view=deck / ?view=scroll overrides
   let view = null; try { view = new URLSearchParams(location.search).get('view') || sessionStorage.getItem('mh_view'); if (view) sessionStorage.setItem('mh_view', view); } catch (e) {}
-  const PHONE = !SINGLE && (view ? view === 'scroll' : (Math.min(screen.width, screen.height) < 600 && matchMedia('(pointer: coarse)').matches));
+  const PHONE = !SINGLE && view === 'scroll';   // the phone (scroll) version is off for now: only ?view=scroll shows it
   if (PHONE) { document.documentElement.classList.add('phone'); document.body.classList.add('phone'); }
   let cur = -1, started = false;
   function fit(){
