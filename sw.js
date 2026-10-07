@@ -6,7 +6,8 @@ self.addEventListener('fetch', e => {
   const r = e.request; if (r.method !== 'GET') return;
   const u = new URL(r.url); if (u.origin !== location.origin) return;
   if (r.mode === 'navigate') {
-    e.respondWith(fetch(r).then(res => { const c = res.clone(); caches.open(V).then(ca => ca.put('index.html', c)); return res; }).catch(() => caches.match('index.html')));
+    const key = u.pathname.endsWith('/') ? u.pathname + 'index.html' : u.pathname;   // the slides and the phone edition each keep their own copy
+    e.respondWith(fetch(r).then(res => { const c = res.clone(); if (res.ok) caches.open(V).then(ca => ca.put(key, c)); return res; }).catch(() => caches.match(key)));
   } else if (u.pathname.indexOf('/img/') >= 0) {
     e.respondWith(caches.open(V).then(ca => ca.match(r).then(hit => hit || fetch(r).then(res => { if (res.ok) ca.put(r, res.clone()); return res; }))));
   }
