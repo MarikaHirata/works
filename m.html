@@ -1064,6 +1064,12 @@ h1.t.en{font:400 clamp(38px,12vw,54px)/.98 var(--didot);color:#fff}
   }
   addEventListener('resize', () => { measure(); placeScreens(); go(cur); orient(); toDeck(); if (lb.classList.contains('open')) root.classList.toggle('lbfull', COL); });
   toDeck();   // (also once on arrival: the screen may have been opened while the page was loading)
+  // some devices report a fold without a plain resize: every sign that the screen changed is checked, and a song or film stopping too
+  addEventListener('orientationchange', () => setTimeout(() => dispatchEvent(new Event('resize')), 300));
+  try { matchMedia('(orientation: portrait)').addEventListener('change', () => dispatchEvent(new Event('resize'))); } catch (e) {}
+  if (window.visualViewport) visualViewport.addEventListener('resize', toDeck);
+  ['pageshow'].forEach(e => addEventListener(e, toDeck)); document.addEventListener('visibilitychange', toDeck);
+  ['pause', 'ended'].forEach(e => document.addEventListener(e, toDeck, true));
 
   // ------------------------------------------------ scenes with their own timing
   let finT = null;
