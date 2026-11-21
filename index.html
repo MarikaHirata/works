@@ -449,6 +449,8 @@ body.single .aud,body.single #player,body.single .cm,body.single #offline{displa
   document.addEventListener('visibilitychange', toPhone);
   ['pause', 'ended'].forEach(e => document.addEventListener(e, toPhone, true));
   if (window.visualViewport) visualViewport.addEventListener('resize', toPhone);
+  // a home-screen app can change size without a resize event (it opens before the system has settled its bars): watch the page box itself
+  try { let rw = document.documentElement.clientWidth, rh = document.documentElement.clientHeight; new ResizeObserver(() => { const w = document.documentElement.clientWidth, h = document.documentElement.clientHeight; if (w === rw && h === rh) return; rw = w; rh = h; dispatchEvent(new Event('resize')); }).observe(document.documentElement); } catch (e) {}
   try { matchMedia('(orientation: portrait)').addEventListener('change', toPhone); } catch (e) {}
   toPhone();
 
