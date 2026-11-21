@@ -427,6 +427,18 @@ body.single .aud,body.single #player,body.single .cm,body.single #offline{displa
     const s = Math.min(innerWidth / 1920, innerHeight / 1080); deck.style.transform = 'translate(' + (-960 * s) + 'px,' + (-540 * s) + 'px) scale(' + s + ')';
   }
   addEventListener('resize', fit); fit();
+  // a folding phone closed again, a tablet turned upright: back to the phone edition at the same page, as on arrival
+  // (not when the slides were chosen with ?view=deck, and not while a song or a film is playing: that would cut it off)
+  let phoneT = null;
+  function toPhone() {
+    clearTimeout(phoneT); if (view || SINGLE) return;
+    phoneT = setTimeout(() => {
+      if (!matchMedia('(orientation: portrait) and (max-width: 900px) and (pointer: coarse)').matches) return;
+      if (ytOn || (curSong && !audioEl(curSong).paused)) return;
+      location.replace('m.html#p' + (cur >= 0 ? cur + 1 : fromHash() + 1));
+    }, 450);
+  }
+  addEventListener('resize', toPhone); toPhone();   // (also once on arrival: the screen may have been closed while the page was loading)
 
   // ---------------------------------------------------------------- the cursor: a dot right at the finger of the mouse, a ring that breathes behind it
   if (matchMedia('(pointer:fine)').matches && !PHONE) {

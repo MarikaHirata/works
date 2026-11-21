@@ -178,8 +178,11 @@ h2.didot,.didot{font:italic 400 clamp(24px,7.2vw,32px)/1.15 var(--didot)}
 #hint.gone{opacity:0}
 
 /* ------------------------------------------------ cover */
-.k-cover .cvi{position:absolute;left:0;right:0;top:calc(var(--top) - 8px)}
-.short .k-cover .cvi{top:calc(var(--top) - 16px)}
+.k-cover .cvi{position:absolute;left:0;right:0;top:calc(var(--top) - 8px - var(--up))}
+.short .k-cover .cvi{top:calc(var(--top) - 16px - var(--up))}
+/* on a screen that is wide for its height the painting is larger, so it rides up: its framed film stays clear of the name below (nothing moves on a phone) */
+.k-cover{--up:max(0px,var(--W,100vw) * .6245 + var(--top) - 8px - var(--H) * .44)}
+.short .k-cover{--up:max(0px,var(--W,100vw) * .6245 + var(--top) - 16px - var(--H) * .52)}
 .js .k-cover.near:not(.on) .cvi{opacity:0;transform:scale(1.025)}
 .js .k-cover.on .cvi{transition:opacity 1s ease .05s,transform 1.7s var(--out) .05s}
 .js .k-cover.near:not(.on) .mono{opacity:0;transform:translateY(10px)}
@@ -286,7 +289,7 @@ h2.didot,.didot{font:italic 400 clamp(24px,7.2vw,32px)/1.15 var(--didot)}
 /* ------------------------------------------------ ad films and motifs: lists you read top to bottom */
 .role{font:italic 17px/1.3 var(--didot);margin:0 0 4px}
 .cmlist,.motl{display:flex;flex-direction:column;gap:12px;margin-top:14px}
-.cmr{display:grid;grid-template-columns:44% 1fr;gap:12px;align-items:center;text-align:left;transition:transform .1s}
+.cmr{--c:44%;display:grid;grid-template-columns:min(var(--c),calc((var(--H) - var(--top) - var(--bot)) * .28)) 1fr;gap:12px;align-items:center;text-align:left;transition:transform .1s}
 .cmr:active,.motr:active{transform:scale(.98)}
 .cmr .v{position:relative;display:block;aspect-ratio:16/9;border-radius:6px;overflow:hidden;background:#000;box-shadow:0 10px 26px rgba(0,0,0,.4)}
 .cmr .v img{width:100%;height:100%;object-fit:cover}
@@ -299,7 +302,7 @@ h2.didot,.didot{font:italic 400 clamp(24px,7.2vw,32px)/1.15 var(--didot)}
 .js .near:not(.on) .cmr,.js .near:not(.on) .motr{opacity:0;transform:translateY(14px)}
 .js .on .cmr,.js .on .motr{transition:opacity .35s ease,transform .45s var(--out)}
 .on .cmr:nth-child(2),.on .motr:nth-child(2){transition-delay:.06s}.on .cmr:nth-child(3),.on .motr:nth-child(3){transition-delay:.12s}.on .cmr:nth-child(4){transition-delay:.18s}
-.motr{display:grid;grid-template-columns:36% 1fr;gap:14px;align-items:start;transition:transform .1s}
+.motr{--c:36%;display:grid;grid-template-columns:min(var(--c),calc((var(--H) - var(--top) - var(--bot)) * .235)) 1fr;gap:14px;align-items:start;transition:transform .1s}
 .motr .mi{position:relative;display:block;aspect-ratio:1/1;border-radius:8px;overflow:hidden;box-shadow:0 12px 30px rgba(40,20,30,.18)}
 .motr .mi img{width:100%;height:100%;object-fit:cover}
 .motr .mi b{position:absolute;left:8px;bottom:2px;font:700 34px/1.2 var(--mincho);color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.55)}
@@ -466,7 +469,7 @@ h1.t.en{font:400 clamp(38px,12vw,54px)/.98 var(--didot);color:#fff}
 .sheet{margin:0 0 14px;padding:5px;background:#fff;border:1px solid rgba(22,20,26,.16);border-radius:4px}
 .sheet img{max-height:calc(var(--H) * .3);width:100%;object-fit:contain}
 .sheet figcaption{margin-top:5px;text-align:right;font:10px var(--mono);color:var(--gray)}
-.boards{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:8px}
+.boards{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:8px;max-width:calc((var(--H) - var(--top) - var(--bot)) * .8)}
 .boards figure{margin:0;border-radius:4px;overflow:hidden;transition:transform .1s}
 .boards figure:active{transform:scale(.94)}
 .boards img{width:100%;aspect-ratio:16/9;object-fit:cover}
@@ -484,7 +487,7 @@ h1.t.en{font:400 clamp(38px,12vw,54px)/.98 var(--didot);color:#fff}
 .contact dd{margin:0;text-align:left}
 .contact a{font:13.5px var(--mono);border-bottom:1px solid currentColor}
 .k-end .didot.en{font-size:15px}
-.films{display:grid;grid-template-columns:1fr 1fr;gap:12px 10px;width:100%;margin-top:4px;text-align:left}
+.films{display:grid;grid-template-columns:1fr 1fr;gap:12px 10px;width:100%;max-width:calc((var(--H) - var(--top) - var(--bot)) * .64);margin-top:4px;text-align:left}
 .films .film{transition:transform .1s}
 .films .film:active{transform:scale(.96)}
 .films .film span{position:relative;display:block;overflow:hidden;border-radius:6px}
@@ -615,6 +618,7 @@ h1.t.en{font:400 clamp(38px,12vw,54px)/.98 var(--didot);color:#fff}
 /* small phones (iPhone SE and the like): tighter, nothing lost */
 /* phones of middling height (iPhone 8/SE-size screens in a browser, most Androids): a little tighter */
 .hmid .galg{--gar:.625}
+.hmid .kid .fig{height:clamp(64px,calc((var(--H) - 520px) / 2),150px)}
 .hmid .k-cover .awards{width:min(100%,236px)}
 .hmid .k-making .mk i{display:none}
 .hmid .mk li{padding:9px 0 6px}
@@ -622,13 +626,13 @@ h1.t.en{font:400 clamp(38px,12vw,54px)/.98 var(--didot);color:#fff}
 .hmid .level figure{aspect-ratio:2.6/1}
 .hmid .level{margin-bottom:12px}
 .hmid .level p{font-size:13px;line-height:1.7}
-.hmid .k-end .films,.playing-on .k-end .films{grid-template-columns:repeat(3,1fr);gap:10px 8px}
+.hmid .k-end .films,.playing-on .k-end .films{grid-template-columns:repeat(3,1fr);gap:10px 8px;max-width:calc((var(--H) - var(--top) - var(--bot)) * 1)}
 .hmid .k-end .films .film i,.playing-on .k-end .films .film i{font-size:10.5px}
 .hmid .k-end .films .film i.en,.playing-on .k-end .films .film i.en{font-size:12.5px}
 .hmid .contact{margin:10px 0 12px}
 .hmid .k-end .pname.sm{font-size:22px}
-.hmid .cmr{grid-template-columns:40% 1fr}
-.hmid .motr{grid-template-columns:34% 1fr}
+.hmid .cmr{--c:40%}
+.hmid .motr{--c:34%}
 /* while a song plays the player takes a strip above the dock: the scenes give up their small print, never their content */
 .playing-on .k-gallery .note,.playing-on .k-cm .note,.playing-on .k-cast .note,.playing-on .k-contents .lead{display:none}
 .playing-on.hmid .k-profile .en-body{display:none}
@@ -638,9 +642,9 @@ h1.t.en{font:400 clamp(38px,12vw,54px)/.98 var(--didot);color:#fff}
 .playing-on.hmid .k-story .lettering{max-width:min(54%,230px)}
 .playing-on.hmid .story{font-size:14px;line-height:1.8}
 .playing-on .k-making .mk i{display:none}
-.playing-on.short .cmr{grid-template-columns:34% 1fr;gap:10px}
+.playing-on.short .cmr{--c:34%;gap:10px}
 .playing-on.short .ci .ct{font-size:12px}
-.playing-on.short .motr{grid-template-columns:27% 1fr;gap:10px}
+.playing-on.short .motr{--c:27%;gap:10px}
 .playing-on.short .motr .mi b{font-size:24px}
 .playing-on.short .k-story .lettering{max-width:min(42%,190px);max-height:calc(var(--H) * .16);margin-bottom:6px}
 .playing-on.short .level figure{aspect-ratio:3.4/1}
@@ -674,19 +678,19 @@ h1.t.en{font:400 clamp(38px,12vw,54px)/.98 var(--didot);color:#fff}
 .playing-on .kid .fig{height:clamp(52px,calc((var(--H) - 540px) / 2),150px)}
 .playing-on .k-cover .L.tx{padding-bottom:calc(208px + env(safe-area-inset-bottom))}
 .playing-on.short .k-cover .L.tx{padding-bottom:calc(148px + env(safe-area-inset-bottom))}
-.playing-on.hmid .cmr{grid-template-columns:38% 1fr}
-.playing-on.hmid .motr{grid-template-columns:30% 1fr;gap:12px}
+.playing-on.hmid .cmr{--c:38%}
+.playing-on.hmid .motr{--c:30%;gap:12px}
 .playing-on.hmid .mk li{padding:7px 0 4px}
 .playing-on.hmid .k-making .mk p{font-size:13px;line-height:1.65}
 .playing-on.short .k-making .mk p{font-size:12px;line-height:1.55}
 .playing-on.short .k-making .L.tx>.cap:first-child{display:none}
 /* the shortest screens (an iPhone SE in Safari, small Androids, under 600 px): lists and grids tighter still */
-.xshort .cmr{grid-template-columns:34% 1fr;gap:10px}
+.xshort .cmr{--c:34%;gap:10px}
 .xshort .ci small{display:none}
 .xshort .cmlist,.xshort .motl{gap:8px;margin-top:10px}
 .xshort .k-cm h2.jp{font-size:28px}
 .xshort .k-cm .note{display:none}
-.xshort .motr{grid-template-columns:27% 1fr;gap:10px}
+.xshort .motr{--c:27%;gap:10px}
 .xshort .motr .mi b{font-size:24px}
 .xshort .galg{--gar:.5625}
 .xshort .k-making .mk li{padding:7px 0 5px}
@@ -717,12 +721,16 @@ h1.t.en{font:400 clamp(38px,12vw,54px)/.98 var(--didot);color:#fff}
 .playing-on.short .k-making .mk h3{font-size:14.5px;line-height:1.4}
 .playing-on.short .k-making .mk li{padding:4px 0 2px}
 .xshort .k-making .mk p{font-size:12px;line-height:1.6}
-.playing-on.xshort .cmr{grid-template-columns:28% 1fr}
+.playing-on.xshort .cmr{--c:28%}
 .playing-on.xshort .ci .ct{font-size:12px;line-height:1.4}
 .playing-on.xshort .k-cm .role{display:none}
 .playing-on.xshort .motr .go{display:none}
 .playing-on.xshort .motr .mx{font-size:12px;line-height:1.55}
 .playing-on.xshort .k-motifs h2.didot{display:none}
+.playing-on.xshort .k-contents .lettering{width:min(34%,150px)}
+.playing-on.xshort .kids{gap:8px 0}
+.playing-on.xshort .kid .fig{height:44px}
+.playing-on.xshort .contact{margin:6px 0 8px}
 
 .short .mk b{float:left;margin:4px 9px 0 0;line-height:1.4}
 .short .k-story .rd{margin-top:2px}
@@ -730,6 +738,14 @@ h1.t.en{font:400 clamp(38px,12vw,54px)/.98 var(--didot);color:#fff}
 .playing-on.short .k-statement .big{font-size:16.5px}
 .playing-on.short .k-statement .body{font-size:14px;line-height:1.75}
 .playing-on.xshort .motr .mx i{display:none}
+
+/* touch screens wider than a phone (a folding phone, a small tablet held upright): the stage keeps a phone's proportions and is
+   enlarged to fill (set in stage()); sizes that were tied to the window's width follow the stage instead */
+.fit .n2 .figs img{max-width:calc(var(--W) * .44)}
+.fit .n2 .figs figcaption{max-width:calc(var(--W) * .36)}
+/* where the stage is a column, a film or a picture opened close up still uses the whole screen */
+@media (pointer:coarse){.lbfull #app{left:0!important;right:0!important;width:auto!important;height:auto!important;bottom:0!important;transform:none!important}
+  .lbfull .lbw iframe{width:min(100%,calc((100vh - 190px) * 16 / 9))}}
 
 /* ?still: every scene in place at once, for checking the layout */
 .still *,.still *:after{transition:none!important;animation:none!important}
@@ -893,9 +909,25 @@ h1.t.en{font:400 clamp(38px,12vw,54px)/.98 var(--didot);color:#fff}
   }
 
   // ------------------------------------------------ the pager: one scene per swipe
-  let H = 1, cur = -1;
+  let H = 1, cur = -1, K = 1, COL = false;
+  // Touch screens wider than a phone (a folding phone open or closed, a small tablet upright): the stage keeps a phone's
+  // proportions (never wider than STAGE_R of its height) and, past STAGE_W, is enlarged to fill instead of spreading out.
+  // A screen lower than STAGE_H (a browser with tall bars on a short screen) gets the STAGE_H layout, slightly reduced.
+  // Nothing is tied to one device's size; a mouse-driven window keeps the plain column from the stylesheet.
+  const app = $('app'), coarse = matchMedia('(pointer:coarse)'), STAGE_W = 520, STAGE_H = 540, STAGE_R = 1;
+  function stage() {
+    const W = root.clientWidth, Hh = root.clientHeight;
+    let w = W, k = 1;
+    if (coarse.matches && W && Hh) { w = Math.min(W, Math.round(Hh * STAGE_R)); k = Math.max(1, w / STAGE_W); if (Hh / k < STAGE_H) k = Hh / STAGE_H; }
+    K = k; COL = w < W - 1;
+    const on = coarse.matches && (k !== 1 || w < W || W >= 600);
+    root.classList.toggle('fit', on);
+    if (!on) { if (app.style.cssText) app.style.cssText = ''; return; }
+    app.style.cssText = 'left:' + ((W - w) / 2).toFixed(2) + 'px;right:auto;bottom:auto;width:' + (w / k).toFixed(2) + 'px;height:' + (Hh / k).toFixed(2) + 'px;transform:scale(' + k.toFixed(5) + ');transform-origin:0 0';
+  }
   function measure() {
-    H = pager.clientHeight || innerHeight; root.style.setProperty('--H', H + 'px'); root.style.setProperty('--W', (pager.clientWidth || innerWidth) + 'px'); root.classList.toggle('short', H < 650); root.classList.toggle('hmid', H < 760); root.classList.toggle('xshort', H < 600);
+    stage();
+    H = pager.clientHeight || innerHeight || H; root.style.setProperty('--H', H + 'px'); root.style.setProperty('--W', (pager.clientWidth || innerWidth) + 'px'); root.classList.toggle('short', H < 650); root.classList.toggle('hmid', H < 760); root.classList.toggle('xshort', H < 600);
     // the figures stand just above the name and the words under them
     document.querySelectorAll('.k-char').forEach(s => { const f = s.querySelector('.foot'); if (f) s.style.setProperty('--fb', (H - f.offsetTop) + 'px'); });
   }
@@ -1019,7 +1051,19 @@ h1.t.en{font:400 clamp(38px,12vw,54px)/.98 var(--didot);color:#fff}
   });
   const turn = $('turn');
   function orient() { turn.classList.toggle('on', innerWidth > innerHeight && innerHeight < 500 && matchMedia('(pointer:coarse)').matches); turn.querySelector('a').href = 'index.html?view=deck#' + (scenes[cur] ? scenes[cur].dataset.p : 1); }
-  addEventListener('resize', () => { measure(); placeScreens(); go(cur); orient(); });
+  // a folding phone opened flat, a tablet turned sideways: the slides are made for that shape, so they take over at the same page
+  // (not while a song or a film is playing here: that would cut it off). Folded or turned back, the slides return you here.
+  let deckT = null;
+  const wantDeck = () => coarse.matches && innerWidth > innerHeight && innerHeight >= 500 && innerWidth >= 700;
+  function toDeck() {
+    clearTimeout(deckT); if (STILL || !wantDeck()) return;
+    deckT = setTimeout(() => {
+      if (!wantDeck() || lb.classList.contains('open') || (curSong && !au(curSong).paused)) return;
+      location.replace('index.html#' + (scenes[cur] ? scenes[cur].dataset.p : 1));
+    }, 450);
+  }
+  addEventListener('resize', () => { measure(); placeScreens(); go(cur); orient(); toDeck(); if (lb.classList.contains('open')) root.classList.toggle('lbfull', COL); });
+  toDeck();   // (also once on arrival: the screen may have been opened while the page was loading)
 
   // ------------------------------------------------ scenes with their own timing
   let finT = null;
@@ -1106,7 +1150,7 @@ h1.t.en{font:400 clamp(38px,12vw,54px)/.98 var(--didot);color:#fff}
   sheet.querySelector('.x').addEventListener('click', () => closeSheet());
   const grip = sheet.querySelector('.shg'); let y0 = null;
   grip.addEventListener('pointerdown', e => { if (e.target.closest('.x')) return; y0 = e.clientY; sheet.classList.add('dragging'); grip.setPointerCapture(e.pointerId); });
-  grip.addEventListener('pointermove', e => { if (y0 != null) sheet.style.setProperty('--drag', Math.max(0, e.clientY - y0) + 'px'); });
+  grip.addEventListener('pointermove', e => { if (y0 != null) sheet.style.setProperty('--drag', Math.max(0, (e.clientY - y0) / K) + 'px'); });
   const endDrag = e => { if (y0 == null) return; const d = e.clientY - y0; y0 = null; sheet.classList.remove('dragging'); sheet.style.setProperty('--drag', '0px'); if (d > 80) closeSheet(); };
   grip.addEventListener('pointerup', endDrag); grip.addEventListener('pointercancel', endDrag);
   // a pull down on the text itself, once it is scrolled to the top, takes the sheet down too (as on the phone's own sheets)
@@ -1117,7 +1161,7 @@ h1.t.en{font:400 clamp(38px,12vw,54px)/.98 var(--didot);color:#fff}
     const d = e.touches[0].clientY - sy0;
     if (!sdrag) { if (d > 0 && shC.scrollTop <= 0) { sdrag = true; sheet.classList.add('dragging'); } else { sy0 = null; return; } }
     if (e.cancelable) e.preventDefault();
-    sheet.style.setProperty('--drag', Math.max(0, d) + 'px');
+    sheet.style.setProperty('--drag', Math.max(0, d / K) + 'px');
   }, { passive: false });
   const sEnd = e => {
     if (!sdrag) { sy0 = null; return; }
@@ -1146,6 +1190,7 @@ h1.t.en{font:400 clamp(38px,12vw,54px)/.98 var(--didot);color:#fff}
     clearTimeout(lbT); lbw.style.transform = ''; lb.style.removeProperty('--dim');
     lbw.innerHTML = inner; lbcap.innerHTML = cap || '';
     if (!lb.classList.contains('open')) layerOpen();
+    root.classList.toggle('lbfull', COL);
     lb.classList.add('open'); lb.setAttribute('aria-hidden', 'false');
     const v = lbw.querySelector('video'); if (v) { const p = v.play(); if (p && p.catch) p.catch(() => {}); }
   }
@@ -1154,7 +1199,7 @@ h1.t.en{font:400 clamp(38px,12vw,54px)/.98 var(--didot);color:#fff}
     lb.classList.remove('open', 'loading'); lb.setAttribute('aria-hidden', 'true'); group = [];
     lbw.querySelectorAll('video').forEach(v => v.pause());
     if (lbw.querySelector('iframe')) lbw.innerHTML = '';                  // a film stops at once; a picture fades out with the dark
-    clearTimeout(lbT); lbT = setTimeout(() => { lbw.innerHTML = ''; lbw.style.transform = ''; lb.style.removeProperty('--dim'); }, 300);
+    clearTimeout(lbT); lbT = setTimeout(() => { lbw.innerHTML = ''; lbw.style.transform = ''; lb.style.removeProperty('--dim'); root.classList.remove('lbfull'); toDeck(); }, 300);
     if (!fromBack) layerClosed();
     if (songWas) { const s = songWas; songWas = null; play(s); }
   }
@@ -1181,7 +1226,7 @@ h1.t.en{font:400 clamp(38px,12vw,54px)/.98 var(--didot);color:#fff}
   lbw.addEventListener('touchmove', e => {
     if (!t0) return;
     if (e.touches.length !== 1) { t0 = null; lbw.style.transform = ''; lb.style.removeProperty('--dim'); return; }
-    const dx = e.touches[0].clientX - t0.x, dy = e.touches[0].clientY - t0.y;
+    const k = root.classList.contains('lbfull') ? 1 : K, dx = (e.touches[0].clientX - t0.x) / k, dy = (e.touches[0].clientY - t0.y) / k;
     if (!t0.ax && Math.hypot(dx, dy) > 8) t0.ax = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
     lbw.classList.add('drag');
     if (t0.ax === 'x') { const edge = (dx > 0 && gi === 0) || (dx < 0 && gi === group.length - 1); lbw.style.transform = 'translate3d(' + dx * (edge ? .25 : .6) + 'px,0,0)'; }
