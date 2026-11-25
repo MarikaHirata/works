@@ -123,6 +123,8 @@ h2.didot,.didot{font:italic 400 clamp(24px,7.2vw,32px)/1.15 var(--didot)}
 
 /* ------------------------------------------------ HUD on top (where you are), dock at the bottom (where your thumb is) */
 #hud{position:absolute;left:0;right:0;top:0;z-index:20;padding:calc(8px + env(safe-area-inset-top)) 14px 0;color:#fff;pointer-events:none;transition:color .4s}
+/* 画面いっぱいに出すアプリでは、右上にカメラと時計の島が重なる: 上の帯はその手前で止める */
+#hud{padding-right:calc(14px + env(safe-area-inset-right,0px))}
 #hud:before{content:"";position:absolute;inset:0 0 -24px;background:linear-gradient(rgba(11,10,14,.55),rgba(11,10,14,0));transition:opacity .4s;pointer-events:none}
 .paper-on #hud{color:var(--dark)}
 .paper-on #hud:before{opacity:0}

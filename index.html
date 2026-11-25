@@ -466,8 +466,8 @@ html.ds #dsc{display:flex;flex-direction:column;justify-content:flex-end;gap:14p
   const DSQ = matchMedia('(min-width:600px) and (max-width:740px) and (orientation:portrait) and (pointer:coarse)'); let DS = false;
   function fit(){
     DS = !PHONE && !SINGLE && DSQ.matches; document.documentElement.classList.toggle('ds', DS);
-    if (DS) {   // スライドの下の辺を折り目に付ける。ホーム画面アプリではページが画面の上端から始まり、高さが上の安全領域のぶん短いので、折り目はページのまん中より下に来る
-      const s = innerWidth / 1920, fold = (innerHeight + (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sat')) || 0)) / 2;
+    if (DS) {   // スライドの下の辺を折り目に付ける。ホーム画面アプリ(navigator.standalone)ではページが画面の上端から始まり、高さが上の安全領域のぶん短いので、折り目はページのまん中より下に来る。画面いっぱいに出すアプリと Safari では、ページのまん中が折り目
+      const s = innerWidth / 1920, fold = (innerHeight + (navigator.standalone ? parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sat')) || 0 : 0)) / 2;
       document.documentElement.style.setProperty('--fold', fold + 'px');
       deck.style.transform = 'translate(' + (-960 * s) + 'px,' + (fold - innerHeight / 2 - 1080 * s) + 'px) scale(' + s + ')'; return;
     }
