@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<script>(function(){try{if(/[?&]view=/.test(location.search)||sessionStorage.getItem("mh_view"))return;if(!matchMedia("(orientation: portrait) and (max-width: 900px)").matches)return;if(matchMedia("(min-width:600px) and (max-width:740px) and (orientation:portrait) and (pointer:coarse)").matches)return;var n=(location.hash.match(/^#p?(\d+)$/)||[])[1];location.replace("m.html"+(n?"#p"+n:""))}catch(e){}})()</script>
+<script>(function(){try{if(/[?&]view=/.test(location.search)||sessionStorage.getItem("mh_view"))return;if(!matchMedia("(orientation: portrait) and (max-width: 900px)").matches)return;var h=null;try{h=window.__hingeState||JSON.parse(sessionStorage.getItem("mh_hinge"))}catch(e){}if(matchMedia("(min-width:600px) and (max-width:740px) and (orientation:portrait) and (pointer:coarse)").matches&&(!h||h.status==="unknown"||(h.status==="partial"&&h.deg<=160)))return;var n=(location.hash.match(/^#p?(\d+)$/)||[])[1];location.replace("m.html"+(n?"#p"+n:""))}catch(e){}})()</script>
 <title>Marika Hirata — Works 2025–2026</title>
 <meta name="description" content="平田茉莉花（METREA）の作品資料。8作品の世界観、キャラクター、美術、物語。">
 <meta name="robots" content="noindex,nofollow">
@@ -464,8 +464,12 @@ html.ds #dsc{display:flex;flex-direction:column;justify-content:flex-end;gap:14p
   let cur = -1, started = false;
   // DS の形(折って置いた形)かどうか。fit() が決める
   const DSQ = matchMedia('(min-width:600px) and (max-width:740px) and (orientation:portrait) and (pointer:coarse)'); let DS = false;
+  // アプリ(Portfolio)は折れ具合を知らせてくる(window.__hingeState と hinge の出来事)。知らせがあるときは、折っているときだけ DS の形にする(平らに開いた縦長は、縦に読む版)。知らせがなければ、幅と向きだけで決める
+  let hinge = window.__hingeState || null; try { if (!hinge) hinge = JSON.parse(sessionStorage.getItem('mh_hinge')); } catch (e) {}
+  const dsNow = () => DSQ.matches && (!hinge || hinge.status === 'unknown' || (hinge.status === 'partial' && hinge.deg <= 160));
+  addEventListener('hinge', e => { hinge = e.detail; try { sessionStorage.setItem('mh_hinge', JSON.stringify(hinge)); } catch (x) {} dispatchEvent(new Event('resize')); });
   function fit(){
-    DS = !PHONE && !SINGLE && DSQ.matches; document.documentElement.classList.toggle('ds', DS);
+    DS = !PHONE && !SINGLE && dsNow(); document.documentElement.classList.toggle('ds', DS);
     if (DS) {   // スライドの下の辺を折り目に付ける。ホーム画面アプリ(navigator.standalone)ではページが画面の上端から始まり、高さが上の安全領域のぶん短いので、折り目はページのまん中より下に来る。画面いっぱいに出すアプリと Safari では、ページのまん中が折り目
       const s = innerWidth / 1920, fold = (innerHeight + (navigator.standalone ? parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sat')) || 0 : 0)) / 2;
       document.documentElement.style.setProperty('--fold', fold + 'px');
@@ -485,7 +489,7 @@ html.ds #dsc{display:flex;flex-direction:column;justify-content:flex-end;gap:14p
     if (wideNow()) wasWide = true;
     if (view && !wasWide) return;
     phoneT = setTimeout(() => {
-      if (!matchMedia('(orientation: portrait) and (max-width: 900px) and (pointer: coarse)').matches || DSQ.matches) return;
+      if (!matchMedia('(orientation: portrait) and (max-width: 900px) and (pointer: coarse)').matches || dsNow()) return;
       if (ytOn || (curSong && !audioEl(curSong).paused)) return;
       location.replace('m.html#p' + (cur >= 0 ? cur + 1 : fromHash() + 1));
     }, 450);
