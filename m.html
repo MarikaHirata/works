@@ -1055,7 +1055,8 @@ h1.t.en{font:400 clamp(38px,12vw,54px)/.98 var(--didot);color:#fff}
   // a folding phone opened flat, a tablet turned sideways: the slides are made for that shape, so they take over at the same page
   // (not while a song or a film is playing here: that would cut it off). Folded or turned back, the slides return you here.
   let deckT = null;
-  const wantDeck = () => coarse.matches && innerWidth > innerHeight && innerHeight >= 500 && innerWidth >= 700;
+  const DSQ = matchMedia('(min-width:600px) and (max-width:740px) and (orientation:portrait) and (pointer:coarse)');   // 折って置いた形(DS の形)はスライド版が受け持つ
+  const wantDeck = () => coarse.matches && (DSQ.matches || (innerWidth > innerHeight && innerHeight >= 500 && innerWidth >= 700));
   function toDeck() {
     clearTimeout(deckT); if (STILL || !wantDeck()) return;
     deckT = setTimeout(() => {
