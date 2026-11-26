@@ -1,5 +1,5 @@
 // caches the page images for offline viewing (films and songs stream from the network)
-const V = 'mh-2e1beafc';
+const V = 'mh-72d7c457';
 self.addEventListener('install', e => self.skipWaiting());
 self.addEventListener('activate', e => e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k.startsWith('mh-') && k !== V).map(k => caches.delete(k)))).then(() => self.clients.claim())));
 self.addEventListener('fetch', e => {
